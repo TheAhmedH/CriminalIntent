@@ -6,5 +6,5 @@ import com.bignerdranch.android.criminalintent.Database.CrimeRepository
 class CrimeListViewModel : ViewModel() {
 
     private val crimeRepository = CrimeRepository.get()
-    val crimesListLiveData = crimeRepository.getCrimes()
+    var crimesListLiveData = crimeRepository.getCrimes()
 }
