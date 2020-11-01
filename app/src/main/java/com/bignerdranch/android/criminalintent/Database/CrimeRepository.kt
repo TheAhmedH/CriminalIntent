@@ -18,7 +18,7 @@ class CrimeRepository private constructor(context: Context) {
         context.applicationContext,
         CrimeDatabase::class.java,
         DATABASE_NAME
-    ).build()
+    ).addMigrations(migration_1_2).build()
 
 //    private val database: CrimeDatabase = databaseBuilder(context.applicationContext, CrimeDatabase::class.java, DATABASE_NAME)
 //            .fallbackToDestructiveMigration()

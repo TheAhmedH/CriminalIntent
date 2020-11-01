@@ -11,7 +11,8 @@ data class Crime(
     var title: String = "",
     var date: Date = Date(),
 //    var requiresPolice:Boolean = true,
-    var isSolved: Boolean = false
+    var isSolved: Boolean = false,
+    var suspect:String = ""
 )
 
 

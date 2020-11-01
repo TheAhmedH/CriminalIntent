@@ -23,4 +23,5 @@ class CrimeDetailViewModel : ViewModel() {
     fun saveCrime(crime: Crime){
         crimeRepository.updateCrime(crime)
     }
+
 }

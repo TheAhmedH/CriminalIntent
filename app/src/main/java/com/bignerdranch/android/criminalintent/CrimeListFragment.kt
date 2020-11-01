@@ -4,9 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -37,6 +35,30 @@ class CrimeListFragment : Fragment() {
         fun onCrimeSelected(id: UUID)
     }
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    //Inflating the Menu
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.fragment_crime_list, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.new_crime -> {
+                val crime = Crime()
+                crimeListViewModel.addCrime(crime)
+                callbacks?.onCrimeSelected(crime.id)
+                true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
     //Callback onAttach
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -50,9 +72,9 @@ class CrimeListFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_crime_list, container, false)
         crimeRecyclerView = view.findViewById(R.id.crime_recycler_view)
@@ -73,7 +95,7 @@ class CrimeListFragment : Fragment() {
     }
 
     //Prepare the Adapter
-        fun updateUI(crimes: List<Crime>) {
+    fun updateUI(crimes: List<Crime>) {
         adapter = CrimeAdapter(crimes)
         crimeRecyclerView.adapter = adapter
     }
@@ -87,19 +109,19 @@ class CrimeListFragment : Fragment() {
 
 //Creating an Adapter
 private class CrimeAdapter(var crimes: List<Crime>) :
-    RecyclerView.Adapter<CrimeAdapter.CrimeViewHolder>() {
+        RecyclerView.Adapter<CrimeAdapter.CrimeViewHolder>() {
 
     lateinit var currentSelectedCrimeID: UUID
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.list_item_crime, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.list_item_crime, parent, false)
         return CrimeViewHolder(view)
     }
 
     //Creating a Crime ViewHolder
     private inner class CrimeViewHolder(view: View) :
-        RecyclerView.ViewHolder(view), View.OnClickListener {
+            RecyclerView.ViewHolder(view), View.OnClickListener {
         val solvedImageView: ImageView = itemView.findViewById(R.id.crime_solved_image)
         val titleTextView: TextView = itemView.findViewById(R.id.crime_title)
         val dateTextView: TextView = itemView.findViewById(R.id.crime_date)
@@ -109,8 +131,6 @@ private class CrimeAdapter(var crimes: List<Crime>) :
         }
 
         override fun onClick(v: View) {
-            Toast.makeText(v.context, "", Toast.LENGTH_SHORT).show()
-
             callbacks?.onCrimeSelected(currentSelectedCrimeID)
         }
     }

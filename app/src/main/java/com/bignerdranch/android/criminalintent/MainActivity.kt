@@ -30,5 +30,6 @@ class MainActivity : AppCompatActivity(), CrimeListFragment.Callbacks {
             .addToBackStack(null)
             .commit()
     }
+
 }
 
